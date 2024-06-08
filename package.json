@@ -1,0 +1,15 @@
+{
+  "name": "node.js",
+  "version": "1.0.0",
+  "description": "private space where i expand my node.js skills",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "nodejs",
+    "core-node.js"
+  ],
+  "author": "Johnpaul Nnaji",
+  "license": "ISC"
+}
