@@ -1,10 +1,9 @@
 // https://nodejs.org/api/fs.html
 
 import fs from "fs/promises";
-import path from "path";
-import event from "events";
+import { resolve } from "path";
 
-const commandFilePath = path.resolve(__dirname, "./command.txt");
+const commandFilePath = resolve(__dirname, "./command.txt");
 
 (async () => {
   const watcher = fs.watch(commandFilePath);
@@ -23,8 +22,26 @@ async function readFile(commandFileHandler: fs.FileHandle) {
   const position = 0; // from what position we want to start reading the file from
 
   // we always want to read the whole content from the beginning to the end.
-  const content = await commandFileHandler.read(buff, offset, length, position);
+  await commandFileHandler.read(buff, offset, length, position);
 
-  console.log(content);
-  return content;
+  const instruction = buff.toString("utf8");
+  if (instruction.includes("create a file")) {
+    const filePath = instruction.substring("create a file".length + 1);
+    console.log(filePath);
+    createFile(filePath);
+  }
 }
+
+const createFile = async (path: string) => {
+  let existingFileHandler: fs.FileHandle;
+  try {
+    // throw an error if the file already exists.
+    existingFileHandler = await fs.open(path, "r");
+    existingFileHandler.close();
+    return console.error("This file already exists");
+  } catch (err) {
+    console.log("creating a new file");
+    const newFile = await fs.open(resolve(__dirname, path), "w");
+    newFile.close();
+  }
+};
