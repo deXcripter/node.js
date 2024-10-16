@@ -1,22 +1,22 @@
 import fs from "fs/promises";
 
-const readFile = async () => {
-  const watcher = await fs.watch("data.txt");
+const watchFile = async (path: string) => {
+  // const commandFileHandler = await fs.open(path);
+  const watch = fs.watch(path);
 
-  for await (const event of watcher) {
+  for await (const event of watch) {
     if (event.eventType === "change") {
-      const file = await fs.open(event.filename!, "r");
-      const fileStats = await file.stat();
-      const fileSize = fileStats.size;
-      const buff = Buffer.alloc(fileSize);
-      const length = buff.byteLength;
-      const position = 0;
-
-      const readFile = await file.read(buff, 0, length, position);
-      console.log(readFile);
     }
-    if (event.eventType === "rename") console.log("file was renamed");
   }
 };
+const readFile = async (path?: string) => {
+  const file = await fs.readFile("./command.txt");
+};
+const main = async (path: string) => {
+  watchFile("./command.txt");
+  readFile();
+};
 
-readFile();
+main("./data.txt");
+
+const checkExistingFile = async (path: string) => {};
