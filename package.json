@@ -1,15 +1,15 @@
 {
-  "name": "node.js",
+  "name": "node",
   "version": "1.0.0",
-  "description": "private space where i expand my node.js skills",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [
-    "nodejs",
-    "core-node.js"
-  ],
-  "author": "Johnpaul Nnaji",
-  "license": "ISC"
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^22.7.5"
+  }
 }
