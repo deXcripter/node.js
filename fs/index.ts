@@ -4,6 +4,7 @@ import fs from "fs/promises";
 import { resolve } from "path";
 
 const commandFilePath = resolve(__dirname, "./command.txt");
+const fileDir = resolve(__dirname, "./files");
 
 const commands = {
   create_file: "create a file",
@@ -39,9 +40,11 @@ async function readFile(commandFileHandler: fs.FileHandle) {
     const filePath = instruction.substring(commands.delete_file.length + 1);
     deleteFile(filePath);
   } else if (instruction.includes(commands.rename_file)) {
-    const oldPath = "";
-    const newPath = "";
-    renameFile(oldPath, newPath);
+    const split = instruction.split(" ");
+    const src = split.at(3)!;
+    const dest = split.at(5)!;
+
+    renameFile(src, dest);
   } else if (instruction.includes(commands.add_to_file)) {
     const path = "";
     const data = "data";
@@ -49,11 +52,27 @@ async function readFile(commandFileHandler: fs.FileHandle) {
   }
 }
 
-const deleteFile = (path: string) => {
+const deleteFile = async (path: string) => {
   console.log(`Deleting the file from ${path}`);
+  const filePath = fileDir + path;
+  try {
+    const file = await fs.open(filePath);
+    file.close();
+    await fs.rm(filePath);
+    console.log("File deleted");
+  } catch (er) {
+    console.log("File already deleted");
+  }
 };
-const renameFile = (oldPath: string, newPath: string) => {
-  console.log(`renaming the file from ${oldPath} to ${newPath}`);
+const renameFile = async (oldPath: string, newPath: string) => {
+  console.log(
+    `renaming the file from ${fileDir + oldPath} to ${fileDir + newPath}`
+  );
+
+  await fs
+    .rename(oldPath, newPath)
+    .then(() => {})
+    .catch((err) => console.log("error renaming file", err.message));
 };
 const addToFile = (path: string, data: string) => {
   console.log(`Adding content to ${path}`);
@@ -67,7 +86,7 @@ const createFile = async (path: string) => {
     return console.error("This file already exists");
   } catch (err) {
     console.log("creating a new file...");
-    const newFile = await fs.open(resolve(__dirname + "/files", path), "w");
+    const newFile = await fs.open(fileDir + path, "w");
     newFile.close();
   }
 };
