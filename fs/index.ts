@@ -5,6 +5,13 @@ import { resolve } from "path";
 
 const commandFilePath = resolve(__dirname, "./command.txt");
 
+const commands = {
+  create_file: "create a file",
+  delete_file: "delete a file",
+  rename_file: "rename the file",
+  add_to_file: "add to file",
+};
+
 (async () => {
   const watcher = fs.watch(commandFilePath);
   const commandFileHandler = await fs.open(commandFilePath);
@@ -25,13 +32,32 @@ async function readFile(commandFileHandler: fs.FileHandle) {
   await commandFileHandler.read(buff, offset, length, position);
 
   const instruction = buff.toString("utf8");
-  if (instruction.includes("create a file")) {
-    const filePath = instruction.substring("create a file".length + 1);
-    console.log(filePath);
+  if (instruction.includes(commands.create_file)) {
+    const filePath = instruction.substring(commands.create_file.length + 1);
     createFile(filePath);
+  } else if (instruction.includes(commands.delete_file)) {
+    const filePath = instruction.substring(commands.delete_file.length + 1);
+    deleteFile(filePath);
+  } else if (instruction.includes(commands.rename_file)) {
+    const oldPath = "";
+    const newPath = "";
+    renameFile(oldPath, newPath);
+  } else if (instruction.includes(commands.add_to_file)) {
+    const path = "";
+    const data = "data";
+    addToFile(path, data);
   }
 }
 
+const deleteFile = (path: string) => {
+  console.log(`Deleting the file from ${path}`);
+};
+const renameFile = (oldPath: string, newPath: string) => {
+  console.log(`renaming the file from ${oldPath} to ${newPath}`);
+};
+const addToFile = (path: string, data: string) => {
+  console.log(`Adding content to ${path}`);
+};
 const createFile = async (path: string) => {
   let existingFileHandler: fs.FileHandle;
   try {
@@ -40,8 +66,8 @@ const createFile = async (path: string) => {
     existingFileHandler.close();
     return console.error("This file already exists");
   } catch (err) {
-    console.log("creating a new file");
-    const newFile = await fs.open(resolve(__dirname, path), "w");
+    console.log("creating a new file...");
+    const newFile = await fs.open(resolve(__dirname + "/files", path), "w");
     newFile.close();
   }
 };
