@@ -1,1 +1,1 @@
-rename the file /index.html to /index.htm
+delete a file /index.js
