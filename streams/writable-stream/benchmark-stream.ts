@@ -8,6 +8,7 @@ import fs from "fs/promises";
   const stream = file.createWriteStream();
   console.time("timer");
 
+  // 1 secs avg -
   let i = 0;
   let val = 1000000;
 
