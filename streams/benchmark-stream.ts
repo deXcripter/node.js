@@ -9,11 +9,15 @@ import fs from "fs/promises";
   console.time("timer");
 
   let i = 0;
+  let val = 1000000;
 
   const writemany = () => {
-    while (i <= 100000) {
+    while (i <= val) {
       i++;
       const buffer = Buffer.from(` ${i} `, "utf8");
+      if (i === val) {
+        return stream.end();
+      }
       if (!stream.write(buffer)) break;
     }
   };
@@ -22,12 +26,13 @@ import fs from "fs/promises";
   stream.on("drain", () => {
     writemany();
   });
+
   /**
    * TIMING HOW LONG THIS CODE TOOK MY MACHINE TO RUN
    * 3 seconds -- 200MB (Time and Space)S
    */
 
-  stream.on("close", () => {
+  stream.on("finish", () => {
     console.timeEnd("timer");
     file.close();
   });
