@@ -15,8 +15,8 @@ This Node.js application is designed to manage files based on commands specified
 1. Clone the repository:
 
    ```bash
-   git clone <repository-url>
-   cd <repository-directory>
+   git clone https://github.com/deXcripter/node.js
+   cd node.js
    ```
 
 2. Install dependencies if any
