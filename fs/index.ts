@@ -1,11 +1,11 @@
 // https://nodejs.org/api/fs.html
 
-import { Dir } from "fs";
 import fs from "fs/promises";
 import { resolve } from "path";
 
+const fileDirectory = "./files";
 const commandFilePath = resolve(__dirname, "./command.txt");
-const fileDir = resolve(__dirname, "./files");
+const fileDir = resolve(__dirname, fileDirectory);
 
 const commands = {
   create_file: "create a file",
@@ -16,9 +16,9 @@ const commands = {
 
 (async () => {
   try {
-    await fs.opendir("./files").then(async (val) => await val.close());
+    await fs.opendir(fileDirectory).then(async (val) => await val.close());
   } catch (err) {
-    await fs.mkdir("./files");
+    await fs.mkdir(fileDirectory);
   }
 
   const watcher = fs.watch(commandFilePath);
