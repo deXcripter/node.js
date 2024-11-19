@@ -32,6 +32,12 @@ const commands = {
 };
 (() => __awaiter(void 0, void 0, void 0, function* () {
     var _a, e_1, _b, _c;
+    try {
+        yield promises_1.default.opendir("./files").then((val) => __awaiter(void 0, void 0, void 0, function* () { return yield val.close(); }));
+    }
+    catch (err) {
+        yield promises_1.default.mkdir("./files");
+    }
     const watcher = promises_1.default.watch(commandFilePath);
     const commandFileHandler = yield promises_1.default.open(commandFilePath);
     try {
@@ -119,3 +125,4 @@ const createFile = (path) => __awaiter(void 0, void 0, void 0, function* () {
         newFile.close();
     }
 });
+process.on("uncaughtException", (err) => console.log("An uncaught exception occured", err.message));

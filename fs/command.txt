@@ -1,1 +1,1 @@
-create a file /index.js
+create a file /chek.js

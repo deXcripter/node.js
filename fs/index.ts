@@ -1,5 +1,6 @@
 // https://nodejs.org/api/fs.html
 
+import { Dir } from "fs";
 import fs from "fs/promises";
 import { resolve } from "path";
 
@@ -14,6 +15,12 @@ const commands = {
 };
 
 (async () => {
+  try {
+    await fs.opendir("./files").then(async (val) => await val.close());
+  } catch (err) {
+    await fs.mkdir("./files");
+  }
+
   const watcher = fs.watch(commandFilePath);
   const commandFileHandler = await fs.open(commandFilePath);
 
@@ -90,3 +97,7 @@ const createFile = async (path: string) => {
     newFile.close();
   }
 };
+
+process.on("uncaughtException", (err) =>
+  console.log("An uncaught exception occured", err.message)
+);
