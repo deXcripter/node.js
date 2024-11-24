@@ -1,10 +1,12 @@
 In this module, ill be learning and practising the following.
 
-1. Using Writable Streams
-2. Implementing Writable Streams
-3. Using Readable Streams
-4. Implememting Readable Streams
-5. Implementing Duplex Streams
-6. Using Duplex Streams
-7. Implementing Transfrom Streams
-8. Using Transform Streams
+| Goals                          | Date Completed | 1st Revision | 2nd Revision |
+| ------------------------------ | -------------- | ------------ | ------------ |
+| Using Writable Streams         | -              |              |              |
+| Implementing Writable Streams  | -              |              |              |
+| Using Readable Streams         | -              |              |              |
+| Implememting Readable Streams  | -              |              |              |
+| Implementing Duplex Streams    | -              |              |              |
+| Using Duplex Streams           | -              |              |              |
+| Implementing Transfrom Streams | -              |              |              |
+| Using Transform Streams        | -              |              |              |

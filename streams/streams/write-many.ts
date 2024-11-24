@@ -41,3 +41,29 @@ async function notIdealStreams() {
   console.timeEnd("writeMany");
 }
 // notIdealStreams();
+
+async function idealStreamUsage() {
+  console.time("idealStreamTest");
+  const file = await fs.open("text.txt", "w");
+  const stream = file.createWriteStream();
+
+  console.log(stream.writableLength); // indicated how much of the buffer is filled
+  console.log(stream.writableHighWaterMark); // indicates the amount of data that a stream can hold at a time
+
+  let i = 0;
+
+  while (i < 100000) {
+    const buffer = Buffer.from(` ${i}`, "utf-8");
+    if (!stream.write(buffer)) {
+      await new Promise((resolve) => stream.on("drain", resolve));
+      console.log("drained at", i);
+    }
+    i++;
+  }
+
+  // console.log(stream.writableLength, stream.write(buff));
+
+  console.timeEnd("idealStreamTest");
+}
+
+idealStreamUsage();
