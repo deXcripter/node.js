@@ -47,23 +47,31 @@ async function idealStreamUsage() {
   const file = await fs.open("text.txt", "w");
   const stream = file.createWriteStream();
 
-  console.log(stream.writableLength); // indicated how much of the buffer is filled
-  console.log(stream.writableHighWaterMark); // indicates the amount of data that a stream can hold at a time
+  // console.log(stream.writableLength); // indicated how much of the buffer is filled
+  // console.log(stream.writableHighWaterMark); // indicates the amount of data that a stream can hold at a time
 
   let i = 0;
+  const loopValue = 100000;
 
-  while (i < 100000) {
+  while (i < loopValue) {
     const buffer = Buffer.from(` ${i}`, "utf-8");
     if (!stream.write(buffer)) {
-      await new Promise((resolve) => stream.on("drain", resolve));
+      await new Promise((resolve) => stream.on("drain", resolve)); // this drains the stream data
       console.log("drained at", i);
     }
     i++;
+
+    if (i === loopValue) {
+      // this should be the last write operation, so i should close the file here.
+      stream.end(); // this emits a finish event
+    }
   }
+  stream.on("finish", () => {
+    file.close();
+    console.timeEnd("idealStreamTest");
+  });
 
   // console.log(stream.writableLength, stream.write(buff));
-
-  console.timeEnd("idealStreamTest");
 }
 
 idealStreamUsage();
