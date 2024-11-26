@@ -36,15 +36,20 @@ const readingFromAStreamAndWriteToAnotherFile = async (
   const writableStream = distFile.createWriteStream();
 
   readableStream.on("data", async (chunk) => {
-    writableStream.write(chunk);
     if (!writableStream.write(chunk)) {
-      log("draining", chunk.length);
-      await new Promise((resolve) => writableStream.on("drain", resolve));
+      log("draining...");
+      readableStream.pause();
     }
+  });
+
+  writableStream.on("drain", () => {
+    log("drained!!!");
+    readableStream.resume();
   });
 
   readableStream.on("end", () => {
     distFile.close();
+    readableStream.resume();
   });
 };
 
