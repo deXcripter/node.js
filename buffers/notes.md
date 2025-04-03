@@ -16,3 +16,10 @@ If we dont have anway to deal with these 0s and 1, then we would be unable to cr
    - Symbols used in representing hexadecimal
    - Converting Hexadecimal to Base2 and vice-versa
    - Usage of hexadecimals (Color hex numbers - #ffffff, % in url for indicating space, &#x for expressing unicode characters in HTML, XTM, and XML).
+3. Understanding Character Encodings.
+   - UTF-8 Character encoding
+
+### What is a Buffer.
+
+A buffer is a location in memory. Basically a container that has been allocated to you to do whatever you want to do to it.
+You can read or write data to the buffer.
